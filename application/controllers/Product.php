@@ -6,17 +6,23 @@ class Product extends CI_Controller {
         {
                 parent::__construct();
                 $this->load->model('config_model');
+                $this->load->model('product_model');
                 $this->load->helper('url_helper');
         }
         
 	public function index(){
-		//$this->load->helper('url');
+		
 		$this->load->view('product/product_template');
-		//return '<h1>hola</h1>halo';
+		
 	}
 	
 	public function head(){
 		$data = $this->config_model->get_head();
+		echo json_encode($data);
+	}
+	
+	public function list(){
+		$data = $this->product_model->list();
 		echo json_encode($data);
 	}
 }

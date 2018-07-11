@@ -10,8 +10,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <body>
 
-<div>
-{{title}}
+<div ng-controller="listCtrl">
+<div ng-repeat="item in items">
+<div>{{item.name}}</div>
+<div>{{item.price}}</div>
+<div><img src="{{src}}"></img></div>
+</div>
 </div>
 <script>
 var baseUrl="<?php echo base_url(); ?>";
