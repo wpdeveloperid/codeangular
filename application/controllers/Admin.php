@@ -6,6 +6,7 @@ class Admin extends CI_Controller {
         {
 			parent::__construct();
 			$this->load->helper('url_helper');
+			$this->load->helper('form');
 			$this->load->library('session');
         }
 
@@ -19,4 +20,12 @@ class Admin extends CI_Controller {
 		
 	}
 	
+	public function addproduct(){
+		if(!$this->session->userdata('logged_in')){
+			redirect('users/login');
+		}
+		$this->load->view('adminheader');
+		$this->load->view('admin/addproduct');
+		$this->load->view('adminfooter');
+	}
 }

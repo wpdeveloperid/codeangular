@@ -25,4 +25,12 @@ class Product extends CI_Controller {
 		$data = $this->product_model->list();
 		echo json_encode($data);
 	}
+	
+	public function add(){
+		$data = array(
+			'name'=>$this->input->post('name'),
+			'price'=>$this->input->post('price'),
+		);
+		$this->product_model->add($data);
+	}
 }
