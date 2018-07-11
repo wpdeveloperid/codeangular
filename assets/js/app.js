@@ -10,6 +10,7 @@ app.controller("listCtrl", function($scope, $http) {
 $http.get(baseUrl+"/product/list/")
     .then(function(response) {
 		$scope.items = response.data;
-		$scope.src = baseUrl+'assets/img/upload/joget-400x400.jpg';
+		
     });
+$scope.src = baseUrl+'assets/img/upload/joget-400x400.jpg';
 });
