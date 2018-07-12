@@ -13,7 +13,7 @@ class Admin extends CI_Controller {
 	public function index(){
 	
 		if(!$this->session->userdata('logged_in')){
-			redirect('users/login');
+			redirect('login');
 		} else {
 			echo "Anda sudah login.";
 		}
@@ -22,7 +22,7 @@ class Admin extends CI_Controller {
 	
 	public function addproduct(){
 		if(!$this->session->userdata('logged_in')){
-			redirect('users/login');
+			redirect('login');
 		}
 		$this->load->view('adminheader');
 		$this->load->view('admin/addproduct');
