@@ -7,10 +7,22 @@ $http.get(baseUrl+"/product/head/")
     });
 });
 app.controller("listCtrl", function($scope, $http) {
+$scope.items = [{name:"Product Name",price:123,image:"joget-400x400"}];
 $http.get(baseUrl+"/product/list/")
     .then(function(response) {
-		$scope.items = response.data;
+		var items = response.data;
+		
+		for(var i=0;i<items.length;i++){
+			if(items[i].image==""){
+				items[i].image="joget-400x400";
+			} else {
+				items[i].image+="resized";
+			}
+			
+		}
+		
+		$scope.items = items;
 		
     });
-$scope.src = baseUrl+'assets/img/upload/joget-400x400.jpg';
+
 });
