@@ -24,6 +24,15 @@ class Product extends CI_Controller {
 	
 	public function list(){
 		$data = $this->product_model->list();
+		$img_folder = './assets/img/';
+		$img_url = base_url()."assets/img/";
+		foreach($data as $item){
+			if($item->image===""||!file_exists($img_folder."upload/".$item->image."square.jpg")){
+				$item->src=$img_url."defaultsquare.jpg";
+			}else{
+				$item->src=$img_url."upload/".$item->image."square.jpg";
+			}
+		}
 		echo json_encode($data);
 	}
 	

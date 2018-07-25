@@ -14,11 +14,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div ng-repeat="item in items">
 <div>{{item.name}}</div>
 <div>{{item.price}}</div>
-<div><img ng-src="<?php echo base_url(); ?>{{'assets/img/upload/'+item.image+'.jpg'}}" width=200 height=200 class="product__loader"></div>
+<div><img ng-src="{{item.src}}" width=200 height=200 class="product__loader"></div>
 </div>
 </div>
 <script>
 var baseUrl="<?php echo base_url(); ?>";
+var imgFolder=baseUrl+"assets/img/";
+var uploadFolder=baseUrl+"assets/img/upload/";
 </script>
 <script src="<?php echo base_url(); ?>assets/js/app.js"></script>
 </body>
