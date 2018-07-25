@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
 
 <div ng-controller="listCtrl">
-<div ng-repeat="item in items">
+<div ng-repeat="item in items | orderBy : '-created_at' | limitTo : 10">
 <div>{{item.name}}</div>
 <div>{{item.price}}</div>
 <div><img ng-src="{{item.src}}" width=200 height=200 class="product__loader"></div>
