@@ -15,10 +15,12 @@ app.controller("listCtrl", function ($scope, $http) {
 				src: imgFolder + "defaultsquare.jpg"
 			}
 		],
-		orderBy: 'newest'
+		orderBy: 'newest',
+		showAlert: false
 	};
 	$scope.items = init.items;
 	$scope.orderBy = init.orderBy;
+	$scope.showAlert = init.showAlert;
 	$http.get(baseUrl + "product/list/").then(function (response) {
 		var data = response.data;
 		$scope.pages = [];
@@ -28,7 +30,7 @@ app.controller("listCtrl", function ($scope, $http) {
 			}
 			$scope.items = data.items;
 			$scope.message = '';
-
+			$scope.showAlert = false;
 			for (var i = 1; i <= data.pagesCount; i++) {
 				$scope.pages.push(i);
 			}
@@ -36,6 +38,7 @@ app.controller("listCtrl", function ($scope, $http) {
 		} else {
 			$scope.message = data.message;
 			$scope.items = [];
+			$scope.showAlert = true;
 			console.log($scope.pages);
 		}
 	});
@@ -61,7 +64,7 @@ app.controller("listCtrl", function ($scope, $http) {
 				}
 				$scope.items = data.items;
 				$scope.message = '';
-
+				$scope.showAlert = false;
 				for (var i = 1; i <= data.pagesCount; i++) {
 					$scope.pages.push(i);
 				}
@@ -69,6 +72,7 @@ app.controller("listCtrl", function ($scope, $http) {
 			} else {
 				$scope.message = data.message;
 				$scope.items = [];
+				$scope.showAlert = true;
 				console.log($scope.pages);
 			}
 		});
