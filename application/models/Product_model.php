@@ -40,4 +40,9 @@ class Product_model extends CI_Model
     {
         return $this->db->insert('product', $data);
     }
+    public function detail($id)
+    {
+        $query=$this->db->where('id', $id)->get('product');
+        return $query->result();
+    }
 }

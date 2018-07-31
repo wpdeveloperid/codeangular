@@ -8,7 +8,6 @@ class Product extends CI_Controller
         $this->load->model('config_model');
         $this->load->model('product_model');
         $this->load->library('form_validation');
-        $this->load->helper('form');
         $this->load->helper('url_helper');
         $this->load->helper('crop_helper');
     }
@@ -106,5 +105,23 @@ class Product extends CI_Controller
             'image'=>$image_data['raw_name']
         );
         $this->product_model->add($data);
+    }
+    public function detail()
+    {
+        $result=$this->product_model->detail($this->input->get('id'));
+        if (count($result)>0) {
+            $img_folder = './assets/img/';
+            $img_url = base_url()."assets/img/";
+            foreach ($result as $item) {
+                if ($item->image===""||!file_exists($img_folder."upload/".$item->image.".jpg")) {
+                    $item->src=$img_url."defaultdisplay.jpg";
+                } else {
+                    $item->src=$img_url."upload/".$item->image.".jpg";
+                }
+            }
+
+            $result[0]->posted_at=strtotime($result[0]->created_at)*1000;
+            echo json_encode($result);
+        }
     }
 }

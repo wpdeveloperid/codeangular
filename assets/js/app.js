@@ -1,4 +1,4 @@
-var app = angular.module("productApp", []);
+var app = angular.module("productApp", ["ngRoute"]);
 app.controller("headCtrl", function ($scope, $http) {
 	$http.get(baseUrl + "product/head/").then(function (response) {
 		$scope.title = response.data[0].value;
@@ -6,7 +6,6 @@ app.controller("headCtrl", function ($scope, $http) {
 	});
 });
 app.controller("listCtrl", function ($scope, $http) {
-
 	var init = {
 		items: [
 			{
@@ -31,6 +30,9 @@ app.controller("listCtrl", function ($scope, $http) {
 			$scope.items = data.items;
 			$scope.message = '';
 			$scope.showAlert = false;
+			$scope.itemsCount = data.itemsCount;
+			$scope.from = (data.page - 1) * 12 + 1;
+			$scope.to = Math.min((data.page) * 12, $scope.itemsCount);
 			for (var i = 1; i <= data.pagesCount; i++) {
 				$scope.pages.push(i);
 			}
@@ -65,6 +67,9 @@ app.controller("listCtrl", function ($scope, $http) {
 				$scope.items = data.items;
 				$scope.message = '';
 				$scope.showAlert = false;
+				$scope.itemsCount = data.itemsCount;
+				$scope.from = (data.page - 1) * 12 + 1;
+				$scope.to = Math.min((data.page) * 12, $scope.itemsCount);
 				for (var i = 1; i <= data.pagesCount; i++) {
 					$scope.pages.push(i);
 				}
@@ -87,4 +92,30 @@ app.controller("listCtrl", function ($scope, $http) {
 		$scope.productFilter();
 		$scope.page = null;
 	}
+});
+app.controller("detailCtrl", function ($scope, $routeParams, $http) {
+	var xhr = {
+		method: 'GET',
+		url: baseUrl + "product/detail/",
+		params: {
+			id: $routeParams.productId
+		}
+	}
+	$http(xhr).then(function (response) {
+		var data = response.data;
+		$scope.item = data[0];
+		console.log(data);
+	})
+});
+app.config(function ($routeProvider, $locationProvider) {
+	$routeProvider
+		.when("/", {
+			templateUrl: baseUrl + "template/productlist/",
+			controller: "listCtrl"
+		})
+		.when("/detail/:productId/", {
+			templateUrl: baseUrl + "template/productdetail/",
+			controller: "detailCtrl"
+		});
+	$locationProvider.html5Mode(true);
 });
