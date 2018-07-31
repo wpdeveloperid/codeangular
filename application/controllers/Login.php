@@ -11,12 +11,12 @@ class Login extends CI_Controller {
 			$this->load->model('user_model');
         }
 
-	public function index(){
-	
-		$this->load->view('adminheader');
-		$this->load->view('login');
-		$this->load->view('adminfooter');
-		
+	public function index(){		
+		if(!$this->session->userdata('logged_in')){
+			$this->load->view('login');		
+		} else {
+			redirect('admin');
+		}		
 	}
 	
 	public function action(){
@@ -31,12 +31,17 @@ class Login extends CI_Controller {
 						'logged_in' => true
 					);
 				$this->session->set_userdata($user_data);
-				echo "Berhasil login.";
+				$output['message']= "Berhasil login.";
+				$output['logged_in']=true;
 			}else{
-				echo "Gagal login. Password salah.";
+				
+				$output['message']= "Gagal login. Password salah.";
+				$output['logged_in']=false;
 			}
-		}else{
-			echo "Gagal login. Username salah/tidak ada.".json_encode($users);
+		}else{			
+			$output['message']= "Gagal login. Username salah/tidak ada.";
+				$output['logged_in']=false;
 		}
+		echo json_encode($output);
 	}
 }

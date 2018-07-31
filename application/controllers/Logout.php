@@ -6,6 +6,7 @@ class Logout extends CI_Controller {
         {
 			parent::__construct();
 			$this->load->library('session');
+			$this->load->helper('url_helper');
         }
 
 	public function index(){
@@ -13,6 +14,6 @@ class Logout extends CI_Controller {
 		$this->session->unset_userdata('logged_in');
 		$this->session->unset_userdata('user_id');
 		$this->session->unset_userdata('username');
-		echo "Anda sudah logout";
+		redirect('login');
 	}
 }
