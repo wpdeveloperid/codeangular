@@ -20,30 +20,6 @@ app.controller("listCtrl", function ($scope, $http) {
     $scope.items = init.items;
     $scope.orderBy = init.orderBy;
     $scope.showAlert = init.showAlert;
-    $http.get(baseUrl + "product/list/").then(function (response) {
-        var data = response.data;
-        $scope.pages = [];
-        if (data.items) {
-            for (var i = 0; i < data.items.length; i++) {
-                data.items[i].created_at = Date.parse(data.items[i].created_at);
-            }
-            $scope.items = data.items;
-            $scope.message = '';
-            $scope.showAlert = false;
-            $scope.itemsCount = data.itemsCount;
-            $scope.from = (data.page - 1) * 12 + 1;
-            $scope.to = Math.min((data.page) * 12, $scope.itemsCount);
-            for (var i = 1; i <= data.pagesCount; i++) {
-                $scope.pages.push(i);
-            }
-            console.log(data); console.log($scope.n);
-        } else {
-            $scope.message = data.message;
-            $scope.items = [];
-            $scope.showAlert = true;
-            console.log($scope.pages);
-        }
-    });
     $scope.productFilter = function () {
         var xhr = {
             method: 'GET',
@@ -67,10 +43,10 @@ app.controller("listCtrl", function ($scope, $http) {
                 $scope.items = data.items;
                 $scope.message = '';
                 $scope.showAlert = false;
-                $scope.itemsCount = data.itemsCount;
+                $scope.itemsCount = data.items_count;
                 $scope.from = (data.page - 1) * 12 + 1;
                 $scope.to = Math.min((data.page) * 12, $scope.itemsCount);
-                for (var i = 1; i <= data.pagesCount; i++) {
+                for (var i = 1; i <= data.pages_count; i++) {
                     $scope.pages.push(i);
                 }
                 //console.log(data);
@@ -82,6 +58,7 @@ app.controller("listCtrl", function ($scope, $http) {
             }
         });
     }
+    $scope.productFilter();
     $scope.reset = function () {
         $scope.query = $scope.minPrice = $scope.maxPrice = null;
         $scope.orderBy = 'newest';
