@@ -10,10 +10,10 @@ class Template extends CI_Controller
     }
     public function productlist()
     {
-        $this->load->view('product/list');
+        $this->load->view('ngtemplate/productlist');
     }
     public function productdetail()
     {
-        $this->load->view('product/detail');
+        $this->load->view('ngtemplate/productdetail');
     }
 }
