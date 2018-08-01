@@ -62,18 +62,9 @@ app.controller("productCtrl", function ($scope, $http) {
     $scope.productFilter();
 })
 app.controller("addProductCtrl", function ($scope) {
-    $scope.tinymceModel = 'Initial content';
-
-    $scope.getContent = function () {
-        console.log('Editor content:', $scope.tinymceModel);
-    };
-
-    $scope.setContent = function () {
-        $scope.tinymceModel = 'Time: ' + (new Date());
-    };
-
     $scope.tinymceOptions = {
-        plugins: 'link image code',
-        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+        plugins: 'link code',
+        toolbar: 'newdocument, bold, italic, underline, strikethrough, alignleft, aligncenter, alignright, alignjustify, styleselect, formatselect, fontselect, fontsizeselect, cut, copy, paste, bullist, numlist, outdent, indent, blockquote, undo, redo, removeformat, subscript, superscript'
+
     };
 });

@@ -96,7 +96,7 @@ class Product extends CI_Controller
         if (!$this->upload->do_upload('image')) {
             echo $this->upload->display_errors();
         } else {
-            echo json_encode($this->upload->data());
+            //echo json_encode($this->upload->data());
             $image_data = $this->upload->data();
             echo advanced_resize($image_data, 200, 200, "square");
         }
@@ -104,10 +104,12 @@ class Product extends CI_Controller
         $data = array(
             'name'=>$this->input->post('name'),
             'price'=>$this->input->post('price'),
+            'description'=>$this->input->post('description'),
             'image'=>$image_data['raw_name']
         );
         $this->product_model->add($data);
     }
+
     public function detail()
     {
         $result=$this->product_model->detail($this->input->get('id'));
@@ -124,6 +126,6 @@ class Product extends CI_Controller
 
             $result[0]->posted_at=strtotime($result[0]->created_at)*1000;
             echo json_encode($result);
-        }
+        }//belum ada yang kalo nggak ada hasil
     }
 }

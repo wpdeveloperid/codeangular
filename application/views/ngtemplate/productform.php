@@ -3,6 +3,7 @@
     <section class="p-1">
         <h1 class="h5 mb-0">Add Product{{tinymceModel}}</h1>
     </section>
+    <?php echo form_open_multipart('product/add'); ?>
     <?php echo form_input(array(
         'name'      => 'name',
         'class'=>'form-control',
@@ -23,5 +24,13 @@
         'placeholder'=>'Description',
         'ui-tinymce'=>'tinymceOptions'
     )) ?>
+    <?php echo form_upload(array(
+        'name'      => 'image',
+        'class'=>'form-control-file',
+        'accept'=>'.jpeg',
+        'ng-model'  => 'image')); ?>
+    <?php echo form_submit('submit','Add'); ?>
+    <?php echo form_reset('reset','Reset'); ?>
+    <?php echo form_close(); ?>
 </div>
 </div>
