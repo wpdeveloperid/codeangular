@@ -10,22 +10,22 @@ class Admin extends CI_Controller {
 			$this->load->library('session');
         }
 
-	public function index(){
-	
+	public function index(){	
 		if(!$this->session->userdata('logged_in')){
 			redirect('login');
-		} else {
-			echo "Anda sudah login.";
-		}
-		
+		} else {			
+			$this->load->view('header');
+			$this->load->view('admin/dashboard');
+			$this->load->view('footer');
+		}		
 	}
 	
 	public function addproduct(){
 		if(!$this->session->userdata('logged_in')){
 			redirect('login');
 		}
-		$this->load->view('adminheader');
+		$this->load->view('header');
 		$this->load->view('admin/addproduct');
-		$this->load->view('adminfooter');
+		$this->load->view('footer');
 	}
 }

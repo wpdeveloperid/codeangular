@@ -3,19 +3,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <!DOCTYPE html>
 <html>
-
 <head>
-	<title>Code Angular</title>
+	<title><?php if($this->router->class!="admin"){ echo "Code Angular";} else{ echo "Administration &ndash; Code Angular"; } ?></title>
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/base64.css">
 	<script src="<?php echo base_url(); ?>assets/js/angular.min.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/angular-route.min.js"></script>
-<?php if(isset($product)) { ?>
+<?php if($this->router->class=="product") : ?>
 	<base href="/codeangular/product/">
-<?php } ?>
+	<?php elseif($this->router->class=="admin"): ?>
+	<base href="/codeangular/admin/">
+<?php endif; ?>
 </head>
 
 <body>
+	<?php if($this->router->class!="admin") : ?>
 	<header class="bg-info">
 		<div class="container">
 			<nav class="navbar navbar-dark navbar-expand">
@@ -27,16 +29,39 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>">Home
-
-							</a>
+							<a class="nav-link" href="<?php echo base_url(); ?>">Home</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo base_url(); ?>product/">Products</a>
 						</li>
-
 					</ul>
 				</div>
 			</nav>
 		</div>
 	</header>
+<?php else: ?>
+	<div ng-app="adminApp">
+		<header class="bg-dark">
+			<nav class="navbar navbar-dark navbar-expand-md">
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse justify-content-between" id="mainNavbar">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo base_url(); ?>">Home Page</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo base_url(); ?>admin">Administration Dashboard</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo base_url(); ?>admin/product">Manage Products</a>
+						</li>
+					</ul>
+					<span class="text-light">
+						Greetings, <?php echo $this->session->userdata('username') ?>. <a href="<?php echo base_url(); ?>logout" class="btn btn-outline-light">Logout</a>
+				</span>					
+				</div>
+			</nav>		
+		</header>
+<?php endif; ?>

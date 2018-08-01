@@ -16,4 +16,8 @@ class Template extends CI_Controller
     {
         $this->load->view('ngtemplate/productdetail');
     }
+    public function manageproduct()
+    {
+        echo "OK";
+    }
 }
