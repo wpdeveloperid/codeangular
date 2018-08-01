@@ -10,6 +10,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	<script src="<?php echo base_url(); ?>assets/js/angular.min.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/angular-route.min.js"></script>
 <?php if($this->router->class=="product") : ?>
+	<script src="<?php echo base_url(); ?>assets/js/angular-sanitize.min.js"></script>
 	<base href="/codeangular/product/">
 <?php elseif($this->router->class=="admin"): ?>
 	<script src="<?php echo base_url(); ?>assets/js/tinymce/tinymce.min.js"></script>

@@ -15,7 +15,7 @@
         <div class="col-lg-6">
 
             <div>Price: {{item.price|currency:"IDR":0}}</div>
-            <div>Description: {{item.description}}</div>
+            <div>Description: <span ng-bind-html="item.description"></span></div>
         </div>
         <div class="col-lg-3">
             <div>Posted at: {{item.posted_at|date:"medium"}}</div>
