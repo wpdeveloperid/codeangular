@@ -19,10 +19,23 @@ class Template extends CI_Controller
     }
     public function dashboard()
     {
+        if(!$this->session->userdata('logged_in')){
+			redirect('login');
+        }
         $this->load->view('ngtemplate/dashboard');
     }    
     public function manageproduct()
     {
-        echo "OK";
+        if(!$this->session->userdata('logged_in')){
+			redirect('login');
+        }
+        $this->load->view('ngtemplate/manageproduct');
+    }
+    public function addproduct()
+    {
+        if(!$this->session->userdata('logged_in')){
+			redirect('login');
+        }
+        $this->load->view('ngtemplate/productform');
     }
 }

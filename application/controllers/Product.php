@@ -70,8 +70,8 @@ class Product extends CI_Controller
                         }
                     }
                     $output['items']= $data;
-                    $output['itemsCount']=$result_count;
-                    $output['pagesCount']=$pages_count;
+                    $output['items_count']=$result_count;
+                    $output['pages_count']=$pages_count;
                     $output['page']=$input['page'];
                 } else {
                     $output['message']= 'No result';

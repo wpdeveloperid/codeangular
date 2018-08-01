@@ -1,4 +1,4 @@
-var app = angular.module("adminApp", ["ngRoute"]);
+var app = angular.module("adminApp", ["ngRoute", 'ui.tinymce']);
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', {
@@ -7,6 +7,9 @@ app.config(function ($routeProvider, $locationProvider) {
         .when('/product', {
             templateUrl: baseUrl + "template/manageproduct",
             controller: "productCtrl"
+        })
+        .when('/product/add', {
+            templateUrl: baseUrl + "template/addproduct"
         });
     $locationProvider.html5Mode(true);
 })
@@ -42,6 +45,8 @@ app.controller("productCtrl", function ($scope, $http) {
                 $scope.itemsCount = data.items_count;
                 $scope.from = (data.page - 1) * 12 + 1;
                 $scope.to = Math.min((data.page) * 12, $scope.itemsCount);
+                $scope.currentPage = data.page;
+                $scope.pagesCount = data.pages_count;
                 for (var i = 1; i <= data.pages_count; i++) {
                     $scope.pages.push(i);
                 }
@@ -56,3 +61,19 @@ app.controller("productCtrl", function ($scope, $http) {
     }
     $scope.productFilter();
 })
+app.controller("addProductCtrl", function ($scope) {
+    $scope.tinymceModel = 'Initial content';
+
+    $scope.getContent = function () {
+        console.log('Editor content:', $scope.tinymceModel);
+    };
+
+    $scope.setContent = function () {
+        $scope.tinymceModel = 'Time: ' + (new Date());
+    };
+
+    $scope.tinymceOptions = {
+        plugins: 'link image code',
+        toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+    };
+});

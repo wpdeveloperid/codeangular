@@ -11,13 +11,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	<script src="<?php echo base_url(); ?>assets/js/angular-route.min.js"></script>
 <?php if($this->router->class=="product") : ?>
 	<base href="/codeangular/product/">
-	<?php elseif($this->router->class=="admin"): ?>
+<?php elseif($this->router->class=="admin"): ?>
+	<script src="<?php echo base_url(); ?>assets/js/tinymce/tinymce.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/tinymce.js"></script>
 	<base href="/codeangular/admin/">
 <?php endif; ?>
 </head>
 
-<body>
-	<?php if($this->router->class!="admin") : ?>
+<?php if($this->router->class!="admin") : ?>
+<body>	
 	<header class="bg-info">
 		<div class="container">
 			<nav class="navbar navbar-dark navbar-expand">
@@ -40,28 +42,28 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		</div>
 	</header>
 <?php else: ?>
-	<div ng-app="adminApp">
-		<header class="bg-dark">
-			<nav class="navbar navbar-dark navbar-expand-md">
-				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse justify-content-between" id="mainNavbar">
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>">Home Page</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>admin">Administration Dashboard</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>admin/product">Manage Products</a>
-						</li>
-					</ul>
-					<span class="text-light">
-						Greetings, <?php echo $this->session->userdata('username') ?>. <a href="<?php echo base_url(); ?>logout" class="btn btn-outline-light">Logout</a>
-				</span>					
-				</div>
-			</nav>		
-		</header>
+<body ng-app="adminApp">
+	<header class="bg-dark">
+		<nav class="navbar navbar-dark navbar-expand-md py-0">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-between" id="mainNavbar">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link" href="<?php echo base_url(); ?>">Home Page</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="<?php echo base_url(); ?>admin">Administration Dashboard</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="<?php echo base_url(); ?>admin/product">Manage Products</a>
+					</li>
+				</ul>
+				<span class="text-light">
+					Greetings, <?php echo $this->session->userdata('username') ?>. <a href="<?php echo base_url(); ?>logout" class="btn btn-outline-light btn-sm">Logout</a>
+			</span>					
+			</div>
+		</nav>		
+	</header>
 <?php endif; ?>
