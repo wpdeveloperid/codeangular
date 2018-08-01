@@ -15,7 +15,7 @@ class Admin extends CI_Controller {
 			redirect('login');
 		} else {			
 			$this->load->view('header');
-			$this->load->view('admin/dashboard');
+			$this->load->view('admin');
 			$this->load->view('footer');
 		}		
 	}

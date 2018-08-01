@@ -13,10 +13,9 @@ class Product extends CI_Controller
     }
         
     public function index()
-    {
-        $data['product']=true;
-        $this->load->view('header',$data);
-        $this->load->view('product/product_template');
+    {        
+        $this->load->view('header');
+        $this->load->view('product');
         $this->load->view('footer');
     }
     

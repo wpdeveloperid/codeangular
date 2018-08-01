@@ -7,6 +7,7 @@ class Template extends CI_Controller
         parent::__construct();
         $this->load->helper('url_helper');
         $this->load->helper('form');
+        $this->load->library('session');
     }
     public function productlist()
     {
@@ -16,6 +17,10 @@ class Template extends CI_Controller
     {
         $this->load->view('ngtemplate/productdetail');
     }
+    public function dashboard()
+    {
+        $this->load->view('ngtemplate/dashboard');
+    }    
     public function manageproduct()
     {
         echo "OK";
