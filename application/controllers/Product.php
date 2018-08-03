@@ -8,6 +8,7 @@ class Product extends CI_Controller
         $this->load->model('config_model');
         $this->load->model('product_model');
         $this->load->library('form_validation');
+        $this->load->library('session');
         $this->load->helper('url_helper');
         $this->load->helper('crop_helper');
     }
@@ -87,27 +88,43 @@ class Product extends CI_Controller
     
     public function add()
     {
-        $config['upload_path'] = './assets/img/upload/';
-        $config['allowed_types'] = 'jpg';
-        $config['file_name'] = 'upload.jpg';
-        $config['encrypt_name'] = true;
-        $this->load->library('upload', $config);
-        
-        if (!$this->upload->do_upload('image')) {
-            echo $this->upload->display_errors();
-        } else {
-            //echo json_encode($this->upload->data());
-            $image_data = $this->upload->data();
-            echo advanced_resize($image_data, 200, 200, "square");
+        if(!$this->session->userdata('logged_in')){
+			redirect('login');
         }
-        
-        $data = array(
-            'name'=>$this->input->post('name'),
-            'price'=>$this->input->post('price'),
-            'description'=>$this->input->post('description'),
-            'image'=>$image_data['raw_name']
-        );
-        $this->product_model->add($data);
+        $this->form_validation->set_data($this->input->get());
+        $this->form_validation->set_rules('name', 'Product Name', 'required|alpha_numeric_spaces|min_length[1]');
+        $this->form_validation->set_rules('price', 'Price', 'required|numeric|greater_than_equal_to[0]');
+        if ($this->form_validation->run()) {
+            $config['upload_path'] = './assets/img/upload/';
+            $config['allowed_types'] = 'jpg';
+            $config['file_name'] = 'upload.jpg';
+            $config['encrypt_name'] = true;
+            $this->load->library('upload', $config);
+            
+            if (!$this->upload->do_upload('image')) {
+                $output['message']= strip_tags($this->upload->display_errors());
+            } else {
+                $image_data = $this->upload->data();
+                $createaltimg=advanced_resize($image_data, 200, 200, "square");
+                if($createaltimg['status']){
+                    $data = array(
+                        'name'=>$this->input->post('name'),
+                        'price'=>$this->input->post('price'),
+                        'description'=>$this->input->post('description'),
+                        'image'=>$image_data['raw_name']
+                    );
+                    if($this->product_model->add($data)){
+                        $output['message']="Product has been posted";
+                        $output['add_status']=true;
+                    }
+                }else{
+                    $output['message']= $createaltimg['message'];
+                }                
+            }
+        } else{
+            $output['message']= strip_tags(validation_errors());
+        }
+        echo json_encode($output);
     }
 
     public function detail()
@@ -123,7 +140,6 @@ class Product extends CI_Controller
                     $item->src=$img_url."upload/".$item->image.".jpg";
                 }
             }
-
             $result[0]->posted_at=strtotime($result[0]->created_at)*1000;
             echo json_encode($result);
         }//belum ada yang kalo nggak ada hasil
