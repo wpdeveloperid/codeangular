@@ -94,6 +94,7 @@ class Product extends CI_Controller
         $this->form_validation->set_data($this->input->get());
         $this->form_validation->set_rules('name', 'Product Name', 'required|alpha_numeric_spaces|min_length[1]');
         $this->form_validation->set_rules('price', 'Price', 'required|numeric|greater_than_equal_to[0]');
+        $description=($this->input->post('description'))?$this->input->post('description'):"";
         if ($this->form_validation->run()) {
             $config['upload_path'] = './assets/img/upload/';
             $config['allowed_types'] = 'jpg';
@@ -110,7 +111,7 @@ class Product extends CI_Controller
                     $data = array(
                         'name'=>$this->input->post('name'),
                         'price'=>$this->input->post('price'),
-                        'description'=>$this->input->post('description'),
+                        'description'=>$description,
                         'image'=>$image_data['raw_name']
                     );
                     if($this->product_model->add($data)){

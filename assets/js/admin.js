@@ -1,4 +1,4 @@
-var app = angular.module("adminApp", ["ngRoute", 'ui.tinymce']);
+var app = angular.module("adminApp", ["ngRoute", 'ui.tinymce', 'ngFileUpload']);
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when('/', {
@@ -61,10 +61,29 @@ app.controller("productCtrl", function ($scope, $http) {
     }
     $scope.productFilter();
 })
-app.controller("addProductCtrl", function ($scope) {
+app.controller("addProductCtrl", function ($scope, Upload) {
+    $scope.hideAlert = true;
+    $scope.message = "OK bos";
     $scope.tinymceOptions = {
         plugins: 'link code',
         toolbar: 'newdocument, bold, italic, underline, strikethrough, alignleft, aligncenter, alignright, alignjustify, styleselect, formatselect, fontselect, fontsizeselect, cut, copy, paste, bullist, numlist, outdent, indent, blockquote, undo, redo, removeformat, subscript, superscript'
-
     };
+    $scope.add = function (file) {
+        Upload.upload({
+            url: baseUrl + 'product/add',
+            data: {
+                image: file,
+                name: $scope.name,
+                price: $scope.price,
+                description: $scope.description
+            }
+        }).then(function (response) {
+            var data = response.data;
+            $scope.message = data.message;
+            $scope.hideAlert = data.add_status;
+            if (data.add_status) {
+                window.history.back();
+            }
+        })
+    }
 });
