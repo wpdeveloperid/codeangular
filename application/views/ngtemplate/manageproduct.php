@@ -36,7 +36,7 @@
                     <td class="text-center">{{item.created_at|date:"short"}}</td>
                     <td class="text-right">{{item.price|currency}}</td>
                     <td>
-                        <button class="btn btn-primary btn-sm">Edit</button>
+                        <a href="<?php echo base_url(); ?>admin/product/edit/{{item.id}}" class="btn btn-primary btn-sm">Edit</a>
                         <button class="btn btn-danger btn-sm">Delete</button>
                     </td>
                 </tr>                

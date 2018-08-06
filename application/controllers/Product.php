@@ -85,45 +85,66 @@ class Product extends CI_Controller
         }
         echo json_encode($output);
     }
-    
-    public function add()
-    {
+
+    public function storeupdate(){
         if(!$this->session->userdata('logged_in')){
 			redirect('login');
         }
-        $this->form_validation->set_data($this->input->get());
+        $this->form_validation->set_data($this->input->post());
         $this->form_validation->set_rules('name', 'Product Name', 'required|alpha_numeric_spaces|min_length[1]');
         $this->form_validation->set_rules('price', 'Price', 'required|numeric|greater_than_equal_to[0]');
+        $this->form_validation->set_rules('action', 'Action', 'in_list[add,edit]');
         $description=($this->input->post('description'))?$this->input->post('description'):"";
         if ($this->form_validation->run()) {
             $config['upload_path'] = './assets/img/upload/';
             $config['allowed_types'] = 'jpg';
             $config['file_name'] = 'upload.jpg';
             $config['encrypt_name'] = true;
-            $this->load->library('upload', $config);
-            
-            if (!$this->upload->do_upload('image')) {
-                $output['message']= strip_tags($this->upload->display_errors());
-            } else {
-                $image_data = $this->upload->data();
-                $createaltimg=advanced_resize($image_data, 200, 200, "square");
-                if($createaltimg['status']){
-                    $data = array(
-                        'name'=>$this->input->post('name'),
-                        'price'=>$this->input->post('price'),
-                        'description'=>$description,
-                        'image'=>$image_data['raw_name']
-                    );
+            $this->load->library('upload', $config);            
+            $data = array(
+                'name'=>$this->input->post('name'),
+                'price'=>$this->input->post('price'),
+                'description'=>$description
+            );
+            if($this->input->post('action')=='edit'){
+                if(!$this->upload->do_upload('image')&&isset($_FILES['image'])){
+                    $output['message']= strip_tags($this->upload->display_errors());
+                }else{
+                    if(!$this->upload->do_upload('image')){
+                        $data['image']=null;
+                    }else{
+                        $image_data = $this->upload->data();
+                        $createaltimg=advanced_resize($image_data, 200, 200, "square");
+                        $data['image']=$image_data['raw_name'];
+                    }
+                    $data['id']=$this->input->post('id');
+                    if($this->product_model->update($data)){
+                        $output['message']="Product has been updated";
+                        $output['status']=true;
+                    }else{
+                        $output['message']="Product update fail. Please try again later.";
+                    }
+                }
+                
+            }else{ // add product
+                if($this->upload->do_upload('image')){
+                    $image_data = $this->upload->data();
+                    $createaltimg=advanced_resize($image_data, 200, 200, "square");
+                    $data['image']=$image_data['raw_name'];
                     if($this->product_model->add($data)){
                         $output['message']="Product has been posted";
-                        $output['add_status']=true;
+                        $output['status']=true;
+                    }else{
+                        $output['message']="Product add fail. Please try again later.";
                     }
                 }else{
-                    $output['message']= $createaltimg['message'];
-                }                
+                    $output['message']= strip_tags($this->upload->display_errors());
+                }
             }
-        } else{
+                    
+        }else{
             $output['message']= strip_tags(validation_errors());
+            
         }
         echo json_encode($output);
     }
@@ -142,7 +163,7 @@ class Product extends CI_Controller
                 }
             }
             $result[0]->posted_at=strtotime($result[0]->created_at)*1000;
-            echo json_encode($result);
+            echo json_encode($result, JSON_NUMERIC_CHECK);
         }//belum ada yang kalo nggak ada hasil
     }
 }

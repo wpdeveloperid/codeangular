@@ -31,7 +31,7 @@ class Template extends CI_Controller
         }
         $this->load->view('ngtemplate/manageproduct');
     }
-    public function addproduct()
+    public function productform()
     {
         if(!$this->session->userdata('logged_in')){
 			redirect('login');

@@ -8,8 +8,9 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: baseUrl + "template/manageproduct",
             controller: "productCtrl"
         })
-        .when('/product/add', {
-            templateUrl: baseUrl + "template/addproduct"
+        .when('/product/:action/:id?', {
+            templateUrl: baseUrl + "template/productform",
+            controller: 'productFormCtrl'
         });
     $locationProvider.html5Mode(true);
 })
@@ -61,17 +62,39 @@ app.controller("productCtrl", function ($scope, $http) {
     }
     $scope.productFilter();
 })
-app.controller("addProductCtrl", function ($scope, Upload) {
+app.controller("productFormCtrl", function ($scope, Upload, $http, $routeParams) {
     $scope.hideAlert = true;
-    $scope.message = "OK bos";
+    var params = $routeParams;
+    $scope.id = params.id;
+    $scope.action = params.action;
+    //console.log(params);
+    if ($scope.action == 'edit') {
+        var xhr = {
+            method: 'GET',
+            url: baseUrl + "product/detail/",
+            params: {
+                id: $scope.id
+            }
+        }
+        $http(xhr).then(function (response) {
+            var data = response.data;
+            $scope.name = data[0].name;
+            $scope.price = data[0].price;
+            $scope.description = data[0].description;
+        })
+    }
     $scope.tinymceOptions = {
         plugins: 'link code',
-        toolbar: 'newdocument, bold, italic, underline, strikethrough, alignleft, aligncenter, alignright, alignjustify, styleselect, formatselect, fontselect, fontsizeselect, cut, copy, paste, bullist, numlist, outdent, indent, blockquote, undo, redo, removeformat, subscript, superscript'
+        toolbar: 'newdocument, bold, italic, underline, strikethrough, alignleft, aligncenter, alignright, alignjustify, styleselect, formatselect, fontselect, fontsizeselect, cut, copy, paste, bullist, numlist, outdent, indent, blockquote, undo, redo, removeformat, link, subscript, superscript, code',
+        menubar: false
     };
-    $scope.add = function (file) {
+    $scope.storeupdate = function (file) {
+        //console.log([$scope.id, $scope.name, $scope.price, $scope.description, $scope.action]);
         Upload.upload({
-            url: baseUrl + 'product/add',
+            url: baseUrl + 'product/storeupdate',
             data: {
+                action: $scope.action,
+                id: $scope.id,
                 image: file,
                 name: $scope.name,
                 price: $scope.price,
@@ -79,10 +102,18 @@ app.controller("addProductCtrl", function ($scope, Upload) {
             }
         }).then(function (response) {
             var data = response.data;
-            $scope.message = data.message;
-            $scope.hideAlert = data.add_status;
-            if (data.add_status) {
-                window.history.back();
+            if (data.status) {
+                if ($scope.action == 'add') {
+                    window.history.back();
+                } else {
+                    $scope.hideAlert = false;
+                    $scope.alertType = 'success';
+                    $scope.message = data.message;
+                }
+            } else {
+                $scope.hideAlert = false;
+                $scope.alertType = 'danger';
+                $scope.message = data.message;
             }
         })
     }

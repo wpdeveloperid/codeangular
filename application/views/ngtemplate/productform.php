@@ -1,8 +1,7 @@
-<div ng-controller="addProductCtrl">
 <div class="container-fluid">
     <section class="p-1">
-        <h1 class="h5 mb-0">Add Product{{tinymceModel}}</h1>
-        <div class="alert alert-danger" ng-hide="hideAlert">{{message}}</div>
+        <h1 class="h5 mb-0">{{action.charAt(0).toUpperCase()+action.slice(1)}} Product</h1>
+        <div class="alert alert-{{alertType}}" ng-hide="hideAlert">{{message}}</div>
     </section>
     <?php echo form_open_multipart('product/add'); ?>
     <?php echo form_input(array(
@@ -17,7 +16,7 @@
         'max'=>'1000000000000000',
         'class'=>'form-control',
         'placeholder'=>'Price',
-        'ng-model'  => 'price')); ?>         
+        'ng-model'  => 'price')); ?>
     <?php echo form_textarea(array(
         'name'=>'description',
         'class'=>'form-control tinymce',
@@ -26,18 +25,10 @@
         'ui-tinymce'=>'tinymceOptions'
     )) ?>
     <input type="file" ngf-select ng-model="image" name="image" accept="jpeg" class="form-control-file">
-    <?php /* echo form_upload(array(
-        'name'      => 'image',
-        'id'=>'image',
-        'class'=>'form-control-file',
-        'accept'=>'.jpeg',
-        'ng-model'  => 'image')); */ ?>
-    <?php echo form_button('submit','Add Ajaxly',array(    
+    <?php echo form_button('submit','Store/Update',array(    
         'class'=>'btn btn-dark',    
-        'ng-click'=>'add(image)'
+        'ng-click'=>'storeupdate(image)'
     )); ?>
-    <?php echo form_submit('submit','Add'); ?>
     <?php echo form_reset('reset','Reset'); ?>
     <?php echo form_close(); ?>
-</div>
 </div>

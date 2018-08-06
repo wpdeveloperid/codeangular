@@ -40,6 +40,19 @@ class Product_model extends CI_Model
     {
         return $this->db->insert('product', $data);
     }
+
+    public function update($data){
+        $this->db->set('name',$data['name']);
+        $this->db->set('price',$data['price']);
+        $this->db->set('description',$data['description']);
+        if($data['image']){
+            $this->db->set('image',$data['image']);
+        }        
+        $this->db->where('id',$data['id']);
+        $query=$this->db->update('product');
+
+        return $query;
+    }
     
     public function detail($id)
     {
