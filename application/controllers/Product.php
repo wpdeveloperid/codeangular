@@ -166,4 +166,19 @@ class Product extends CI_Controller
             echo json_encode($result, JSON_NUMERIC_CHECK);
         }//belum ada yang kalo nggak ada hasil
     }
+
+    public function delete()
+    {
+        if(!$this->session->userdata('logged_in')){
+			redirect('login');
+        }
+        $this->form_validation->set_data($this->input->get());
+        $this->form_validation->set_rules('id', 'ID', 'required|numeric|greater_than_equal_to[0]');
+        if ($this->form_validation->run()) {
+            $output['status']=$this->product_model->delete($this->input->get('id'));
+        }else{
+            $output['message']=strip_tags(validation_errors());
+        }
+        echo json_encode($output);
+    }
 }

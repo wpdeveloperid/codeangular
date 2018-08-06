@@ -60,6 +60,23 @@ app.controller("productCtrl", function ($scope, $http) {
             }
         });
     }
+    $scope.delete = function (el) {
+        var xhr = {
+            method: 'GET',
+            url: baseUrl + "product/delete",
+            params: {
+                id: el.item.id
+            }
+        }
+        $http(xhr).then(function (response) {
+            var data = response.data;
+            if (data.status) {
+                $scope.productFilter();
+            } else {
+                alert(data.message);
+            }
+        })
+    }
     $scope.productFilter();
 })
 app.controller("productFormCtrl", function ($scope, Upload, $http, $routeParams) {

@@ -59,4 +59,8 @@ class Product_model extends CI_Model
         $query=$this->db->where('id', $id)->get('product');
         return $query->result();
     }
+
+    public function delete($id){
+        return $this->db->where('id',$id)->delete('product');
+    }
 }

@@ -37,7 +37,7 @@
                     <td class="text-right">{{item.price|currency}}</td>
                     <td>
                         <a href="<?php echo base_url(); ?>admin/product/edit/{{item.id}}" class="btn btn-primary btn-sm">Edit</a>
-                        <button class="btn btn-danger btn-sm">Delete</button>
+                        <button class="btn btn-danger btn-sm" ng-click="delete(this)">Delete</button>
                     </td>
                 </tr>                
             </tbody>
