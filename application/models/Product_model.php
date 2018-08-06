@@ -47,7 +47,8 @@ class Product_model extends CI_Model
         $this->db->set('description',$data['description']);
         if($data['image']){
             $this->db->set('image',$data['image']);
-        }        
+        }
+        $this->db->set('last_modified_at',date('Y-m-d G:i:s'));
         $this->db->where('id',$data['id']);
         $query=$this->db->update('product');
 

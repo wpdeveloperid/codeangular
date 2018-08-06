@@ -39,6 +39,7 @@ app.controller("productCtrl", function ($scope, $http) {
             if (data.items) {
                 for (var i = 0; i < data.items.length; i++) {
                     data.items[i].created_at = Date.parse(data.items[i].created_at);
+                    data.items[i].last_modified_at = Date.parse(data.items[i].last_modified_at);
                 }
                 $scope.items = data.items;
                 $scope.message = '';

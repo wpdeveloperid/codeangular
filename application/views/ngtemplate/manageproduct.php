@@ -18,6 +18,7 @@
                     <th class="text-center" scope="col">Name</th>
                     <th class="text-center" scope="col">Image</th>
                     <th class="text-center" scope="col">Posted at</th>
+                    <th class="text-center" scope="col">Last modified</th>
                     <th class="text-center" scope="col">Price</th>
                     <th>&nbsp;</th>
                 </tr>
@@ -34,6 +35,7 @@
                     <td>{{item.name}}</td>
                     <td class="text-center"><img ng-src="{{item.src}}" alt="" height="25"></td>
                     <td class="text-center">{{item.created_at|date:"short"}}</td>
+                    <td class="text-center">{{item.last_modified_at|date:"short"}}</td>
                     <td class="text-right">{{item.price|currency}}</td>
                     <td>
                         <a href="<?php echo base_url(); ?>admin/product/edit/{{item.id}}" class="btn btn-primary btn-sm">Edit</a>
