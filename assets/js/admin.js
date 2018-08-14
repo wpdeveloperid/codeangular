@@ -15,10 +15,29 @@ app.config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(true);
 })
 app.controller("productCtrl", function ($scope, $http) {
+    function ajaxDel(id) {
+        var xhr = {
+            method: 'GET',
+            url: baseUrl + "product/delete",
+            params: {
+                id: id
+            }
+        }
+        $http(xhr).then(function (response) {
+            var data = response.data;
+            if (data.status) {
+                $scope.productFilter();
+            } else {
+                alert(data.message);
+            }
+        })
+    }
     $scope.toPage = function (el) {
         $scope.page = el.pageIndex;
         $scope.productFilter();
         $scope.page = null;
+        $scope.allSelected = false;
+        selected = [];
     }
     $scope.productFilter = function () {
         var xhr = {
@@ -57,27 +76,39 @@ app.controller("productCtrl", function ($scope, $http) {
                 $scope.message = data.message;
                 $scope.items = [];
                 $scope.showAlert = true;
-                console.log($scope.pages);
+                //console.log($scope.pages);
             }
         });
     }
     $scope.delete = function (el) {
-        var xhr = {
-            method: 'GET',
-            url: baseUrl + "product/delete",
-            params: {
-                id: el.item.id
-            }
-        }
-        $http(xhr).then(function (response) {
-            var data = response.data;
-            if (data.status) {
-                $scope.productFilter();
-            } else {
-                alert(data.message);
-            }
-        })
+        var id = el.item.id;
+        ajaxDel(id);
     }
+    $scope.select = function (el) {
+        if (el.selected) {
+            selected.push(el.item.id);
+        } else {
+            var index = selected.indexOf(el.item.id);
+            selected.splice(index, 1);
+        }
+        //console.log(selected);
+    }
+    $scope.selectAll = function () {
+        if ($scope.allSelected) {
+            selected = $scope.items.map(x => x.id);
+        } else {
+            selected = [];
+        }
+        //console.log(selected);
+    }
+    $scope.bulkDelete = function () {
+        for (var i = 0; i < selected.length; i++) {
+            var id = selected[i];
+            ajaxDel(id);
+        }
+        //console.log(selected);
+    }
+    var selected = [];
     $scope.productFilter();
 })
 app.controller("productFormCtrl", function ($scope, Upload, $http, $routeParams) {

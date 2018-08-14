@@ -2,6 +2,7 @@
     <section class="d-flex align-items-center p-1">
         <h1 class="h5 mb-0 d-inline">Manage Products</h1>&nbsp;
         <a href="<?php echo base_url(); ?>admin/product/add" class="btn btn-primary btn-sm">Add</a>
+        <button class="btn btn-danger btn-sm" ng-click="bulkDelete()">Delete Selected</button>
     </section>
     
     <div class="table-responsive table-sm">
@@ -10,7 +11,7 @@
                 <tr>
                     <th>
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheckAll">
+                            <input type="checkbox" class="custom-control-input" id="customCheckAll" ng-model="allSelected" ng-change="selectAll()">
                             <label class="custom-control-label" for="customCheckAll"></label>
                         </div>
                     </th>
@@ -27,7 +28,7 @@
                 <tr ng-repeat="item in items">
                     <td>                        
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck{{item.id}}">
+                            <input type="checkbox" class="custom-control-input" id="customCheck{{item.id}}" ng-model="selected" ng-change="select(this)" ng-checked="allSelected">
                             <label class="custom-control-label" for="customCheck{{item.id}}"></label>
                         </div>
                     </td>
