@@ -133,6 +133,7 @@ app.controller("productFormCtrl", function ($scope, Upload, $http, $routeParams)
             $scope.name = data[0].name;
             $scope.price = data[0].price;
             $scope.description = data[0].description;
+            $scope.src = data[0].src;
         })
     }
     $scope.tinymceOptions = {
@@ -160,6 +161,8 @@ app.controller("productFormCtrl", function ($scope, Upload, $http, $routeParams)
                     $scope.hideAlert = false;
                     $scope.alertType = 'success';
                     $scope.message = data.message;
+                    $scope.src = data.src;
+                    $scope.image = null;
                 }
             } else {
                 $scope.hideAlert = false;

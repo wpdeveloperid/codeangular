@@ -116,6 +116,7 @@ class Product extends CI_Controller
                         $image_data = $this->upload->data();
                         $createaltimg=advanced_resize($image_data, 200, 200, "square");
                         $data['image']=$image_data['raw_name'];
+                        $output['src']=base_url()."assets/img/upload/".$data['image'].".jpg";
                     }
                     $data['id']=$this->input->post('id');
                     if($this->product_model->update($data)){
@@ -124,8 +125,7 @@ class Product extends CI_Controller
                     }else{
                         $output['message']="Product update fail. Please try again later.";
                     }
-                }
-                
+                }                
             }else{ // add product
                 if($this->upload->do_upload('image')){
                     $image_data = $this->upload->data();
@@ -140,11 +140,9 @@ class Product extends CI_Controller
                 }else{
                     $output['message']= strip_tags($this->upload->display_errors());
                 }
-            }
-                    
+            }                    
         }else{
-            $output['message']= strip_tags(validation_errors());
-            
+            $output['message']= strip_tags(validation_errors());            
         }
         echo json_encode($output);
     }

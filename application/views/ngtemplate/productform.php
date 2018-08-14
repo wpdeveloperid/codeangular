@@ -25,10 +25,10 @@
         'ui-tinymce'=>'tinymceOptions'
     )) ?>
     <input type="file" ngf-select ng-model="image" name="image" accept="jpeg" class="form-control-file">
+    <img ng-src="{{src}}" alt="" width=300>
     <?php echo form_button('submit','Store/Update',array(    
         'class'=>'btn btn-dark',    
         'ng-click'=>'storeupdate(image)'
     )); ?>
-    <?php echo form_reset('reset','Reset'); ?>
     <?php echo form_close(); ?>
 </div>
