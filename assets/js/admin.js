@@ -11,6 +11,10 @@ app.config(function ($routeProvider, $locationProvider) {
         .when('/product/:action/:id?', {
             templateUrl: baseUrl + "template/productform",
             controller: 'productFormCtrl'
+        })
+        .when('/password', {
+            templateUrl: baseUrl + "template/password",
+            controller: "passCtrl"
         });
     $locationProvider.html5Mode(true);
 })
@@ -52,7 +56,6 @@ app.controller("productCtrl", function ($scope, $http) {
             }
         }
         $http(xhr).then(function (response) {
-            $scope.status = response.xhrStatus + response.statusText + ' data masuk:' + JSON.stringify(response.data) + JSON.stringify(response.config);
             var data = response.data;
             $scope.pages = [];
             if (data.items) {
@@ -138,7 +141,6 @@ app.controller("productFormCtrl", function ($scope, Upload, $http, $routeParams)
         menubar: false
     };
     $scope.storeupdate = function (file) {
-        //console.log([$scope.id, $scope.name, $scope.price, $scope.description, $scope.action]);
         Upload.upload({
             url: baseUrl + 'product/storeupdate',
             data: {
@@ -167,3 +169,38 @@ app.controller("productFormCtrl", function ($scope, Upload, $http, $routeParams)
         })
     }
 });
+app.controller("passCtrl", function ($scope, $http, $httpParamSerializerJQLike) {
+    function reset() {
+        $scope.oldpassword = $scope.newpassword = $scope.confirmpassword = null;
+    }
+    $scope.hideAlert = true;
+    $scope.change = function () {
+        var xhr = {
+            method: 'POST',
+            url: baseUrl + 'admin/changepassword',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: $httpParamSerializerJQLike({
+                oldpass: $scope.oldpassword,
+                newpass: $scope.newpassword,
+                confpass: $scope.confirmpassword
+            })
+        }
+        $http(xhr).then(function (response) {
+            var data = response.data;
+            if (data.status) {
+                //console.log(response);
+                $scope.alertType = 'success';
+                reset()
+            } else {
+                $scope.alertType = 'danger';
+            }
+            $scope.message = data.message;
+            $scope.hideAlert = false;
+        })
+    }
+    $scope.reset = function () {
+        reset();
+    }
+})

@@ -38,4 +38,10 @@ class Template extends CI_Controller
         }
         $this->load->view('ngtemplate/productform');
     }
+    public function password(){
+        if(!$this->session->userdata('logged_in')){
+			redirect('login');
+        }
+        $this->load->view('ngtemplate/password');
+    }
 }

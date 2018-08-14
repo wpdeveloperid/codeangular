@@ -61,6 +61,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<li class="nav-item">
 						<a class="nav-link" href="<?php echo base_url(); ?>admin/product">Manage Products</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="<?php echo base_url(); ?>admin/password">Change Password</a>
+					</li>
 				</ul>
 				<span class="text-light">
 					Greetings, <?php echo $this->session->userdata('username') ?>. <a href="<?php echo base_url(); ?>logout" class="btn btn-outline-light btn-sm">Logout</a>

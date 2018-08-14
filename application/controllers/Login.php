@@ -33,8 +33,7 @@ class Login extends CI_Controller {
 				$this->session->set_userdata($user_data);
 				$output['message']= "Berhasil login.";
 				$output['logged_in']=true;
-			}else{
-				
+			}else{				
 				$output['message']= "Gagal login. Password salah.";
 				$output['logged_in']=false;
 			}
