@@ -1,4 +1,16 @@
 var app = angular.module("productApp", ["ngRoute", "ngSanitize"]);
+app.config(function ($routeProvider, $locationProvider) {
+    $routeProvider
+        .when("/", {
+            templateUrl: baseUrl + "template/productlist/",
+            controller: "listCtrl"
+        })
+        .when("/detail/:productId/", {
+            templateUrl: baseUrl + "template/productdetail/",
+            controller: "detailCtrl"
+        });
+    $locationProvider.html5Mode(true);
+});
 app.controller("headCtrl", function ($scope, $http) {
     $http.get(baseUrl + "product/head/").then(function (response) {
         $scope.title = response.data[0].value;
@@ -83,18 +95,6 @@ app.controller("detailCtrl", function ($scope, $routeParams, $http) {
         $scope.item = data[0];
         console.log(data);
     })
-});
-app.config(function ($routeProvider, $locationProvider) {
-    $routeProvider
-        .when("/", {
-            templateUrl: baseUrl + "template/productlist/",
-            controller: "listCtrl"
-        })
-        .when("/detail/:productId/", {
-            templateUrl: baseUrl + "template/productdetail/",
-            controller: "detailCtrl"
-        });
-    $locationProvider.html5Mode(true);
 });
 
 var appLogin = angular.module("loginApp", []);

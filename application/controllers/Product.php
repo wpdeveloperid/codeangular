@@ -110,7 +110,7 @@ class Product extends CI_Controller
                 if(!$this->upload->do_upload('image')&&isset($_FILES['image'])){
                     $output['message']= strip_tags($this->upload->display_errors());
                 }else{
-                    if(!$this->upload->do_upload('image')){
+                    if(!isset($_FILES['image'])){
                         $data['image']=null;
                     }else{
                         $image_data = $this->upload->data();

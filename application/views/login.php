@@ -27,10 +27,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     'class'=>'form-control my-2',
     'placeholder'=>'Password',
     'ng-model'=>'password')); ?>
-<?php echo form_button('submit','Login',array(
-    
-    'class'=>'btn btn-outline-light btn-block',
-    
+<?php echo form_button('submit','Login',array(    
+    'class'=>'btn btn-outline-light btn-block',    
     'ng-click'=>'login()'
 )); ?>
 <?php /* echo form_submit(array(
