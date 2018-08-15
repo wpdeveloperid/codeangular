@@ -10,7 +10,10 @@
     </div>
     <div class="row">
         <div class="col-lg-3">
-            <img src="{{item.src}}" alt="" class="img-fluid img-thumbnail">
+            <img src="{{item.src}}" alt="" class="img-fluid img-thumbnail" ng-show="showImage" ng-lazy>
+            <div style="width:100%;height:250px!important" class="lds-rolling mx-auto" ng-show="showSpinner">
+                <div></div>
+            </div>
         </div>
         <div class="col-lg-6">
 

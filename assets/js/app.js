@@ -17,6 +17,21 @@ app.controller("headCtrl", function ($scope, $http) {
         $scope.description = response.data[1].value;
     });
 });
+app.directive('ngLazy', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.bind('load', function () {
+                //scope.$apply(attrs.ngLazy);
+                element.removeClass('ng-hide');
+                element.next().addClass('ng-hide');
+            });
+            element.bind('error', function () {
+                alert('image could not be loaded');
+            });
+        }
+    };
+});
 app.controller("listCtrl", function ($scope, $http) {
     var init = {
         items: [
@@ -29,10 +44,11 @@ app.controller("listCtrl", function ($scope, $http) {
         orderBy: 'newest',
         showAlert: false
     };
-    $scope.items = init.items;
     $scope.orderBy = init.orderBy;
     $scope.showAlert = init.showAlert;
     $scope.productFilter = function () {
+        $scope.showSpinner = true;
+        $scope.showImage = false;
         var xhr = {
             method: 'GET',
             url: baseUrl + "product/list/",
@@ -45,7 +61,6 @@ app.controller("listCtrl", function ($scope, $http) {
             }
         }
         $http(xhr).then(function (response) {
-            $scope.status = response.xhrStatus + response.statusText + ' data masuk:' + JSON.stringify(response.data) + JSON.stringify(response.config);
             var data = response.data;
             $scope.pages = [];
             if (data.items) {
@@ -53,6 +68,8 @@ app.controller("listCtrl", function ($scope, $http) {
                     data.items[i].created_at = Date.parse(data.items[i].created_at);
                 }
                 $scope.items = data.items;
+                //$scope.showSpinner = false;
+                //$scope.showImage = true;
                 $scope.message = '';
                 $scope.showAlert = false;
                 $scope.itemsCount = data.items_count;
@@ -66,11 +83,10 @@ app.controller("listCtrl", function ($scope, $http) {
                 $scope.message = data.message;
                 $scope.items = [];
                 $scope.showAlert = true;
-                console.log($scope.pages);
+                //console.log($scope.pages);
             }
         });
     }
-    $scope.productFilter();
     $scope.reset = function () {
         $scope.query = $scope.minPrice = $scope.maxPrice = null;
         $scope.orderBy = 'newest';
@@ -81,8 +97,19 @@ app.controller("listCtrl", function ($scope, $http) {
         $scope.productFilter();
         $scope.page = null;
     }
+    $scope.rePlace = function (el) {
+        console.log(el);
+    }
+    $scope.wew = function () {
+        $scope.showSpinner = false;
+        $scope.showImage = true;
+    }
+    $scope.items = init.items;
+    $scope.productFilter();
 });
 app.controller("detailCtrl", function ($scope, $routeParams, $http) {
+    $scope.showSpinner = true;
+    $scope.showImage = false;
     var xhr = {
         method: 'GET',
         url: baseUrl + "product/detail/",
@@ -93,7 +120,7 @@ app.controller("detailCtrl", function ($scope, $routeParams, $http) {
     $http(xhr).then(function (response) {
         var data = response.data;
         $scope.item = data[0];
-        console.log(data);
+        //console.log(data);
     })
 });
 

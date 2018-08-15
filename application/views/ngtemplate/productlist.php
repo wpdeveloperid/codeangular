@@ -64,13 +64,17 @@
                 <div class="card">
                     <div>
                         <a href="<?php echo base_url(); ?>product/detail/{{item.id}}/">
-                            <img ng-src="{{item.src}}" width=200 height=200 class="img-fluid card-img-top product__loader">
+                            <img ng-src="{{item.src}}" width="300" height="300" class="img-fluid card-img-top" ng-show="showImage" ng-lazy>
+                            <div style="width:100%;height:250px!important" class="lds-rolling mx-auto" ng-show="showSpinner">
+                                <div></div>
+                            </div>
                         </a>
-
+                        
                     </div>
+                        
                     <div class="card-body">
                         <div class="card-title">
-                            <h5>{{item.name}}</h5>
+                            <h5><a href="<?php echo base_url(); ?>product/detail/{{item.id}}/" class="text-dark">{{item.name}}</a></h5>
                         </div>
                         <div class="card-text">{{item.price|currency:"IDR":0}}</div>
                     </div>
