@@ -135,6 +135,8 @@ app.controller("productFormCtrl", function ($scope, Upload, $http, $routeParams)
             $scope.description = data[0].description;
             $scope.src = data[0].src;
         })
+    } else {
+        $scope.hideImage = true;
     }
     $scope.tinymceOptions = {
         plugins: 'link code',

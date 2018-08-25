@@ -25,7 +25,7 @@
         'ui-tinymce'=>'tinymceOptions'
     )) ?>
     <input type="file" ngf-select ng-model="image" name="image" accept="jpeg" class="form-control-file">
-    <img ng-src="{{src}}" alt="" width=300>
+    <img ng-src="{{src}}" alt="" width=300 ng-hide="hideImage">
     <?php echo form_button('submit','Store/Update',array(    
         'class'=>'btn btn-dark',    
         'ng-click'=>'storeupdate(image)'
